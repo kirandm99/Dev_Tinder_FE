@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/constant";
 const Login = () => {
   const [emailId, setEmailId] = useState("dhanu.dm@gmail.com");
   const [password, setPassword] = useState("Dhanu@dm1250");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ const Login = () => {
       dispatch(addUser(response.data.data));
       return navigate("/");
     } catch (error) {
-      console.error("Login failed:", error);
+      setError(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -61,6 +62,7 @@ const Login = () => {
               />
               <span className="validator-hint hidden">Required</span>
             </label>
+            <p className="text-red-600">{error}</p>
 
             <button className="btn btn-neutral mt-4" type="submit">
               Login
