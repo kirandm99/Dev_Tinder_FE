@@ -20,3 +20,6 @@
 - Refactor our code add constant file and component folder.
 - You should not access other routes without login
 - If token is not present redirect to login page
+- Logout feature
+- Get the feed and add feed in the store.
+- Build the user card on feed
