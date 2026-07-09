@@ -28,3 +28,5 @@
 - New Page - See all my connections
 - New Page - See all my requests
 - Feature accept or reject connection requests
+- Send and Ignore Card from the feed
+- New feature SignUp user

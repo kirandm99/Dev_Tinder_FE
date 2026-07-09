@@ -16,7 +16,7 @@ const Connections = () => {
 
       dispatch(addConnections(res?.data?.data));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -28,7 +28,9 @@ const Connections = () => {
 
   if (connections.length === 0)
     return (
-      <h1 className="text-bold text-2xl text-center">No Connections Found</h1>
+      <h1 className="text-bold text-3xl text-center my-10">
+        No Connections Found
+      </h1>
     );
 
   return (
