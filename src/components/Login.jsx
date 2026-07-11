@@ -10,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [isLoginForm, setIsLoginForm] = useState(false);
+  const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,6 +47,11 @@ const Login = () => {
     }
   };
 
+  const formatNameInput = (value) => {
+    const lettersOnly = value.replace(/[^a-zA-Z]/g, "");
+    return lettersOnly.charAt(0).toUpperCase() + lettersOnly.slice(1);
+  };
+
   return (
     <div className="flex justify-center items-center py-10  bg-base-100 ">
       <div className="card bg-base-200 w-96 shadow-sm ">
@@ -68,9 +73,17 @@ const Login = () => {
                     placeholder="First Name"
                     required
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    pattern="[A-Za-z][A-Za-z0-9\-]*"
+                    // onChange={(e) => setFirstName(e.target.value)}
+                    minLength="4"
+                    maxLength="20"
+                    onChange={(e) =>
+                      setFirstName(formatNameInput(e.target.value))
+                    }
                   />
-                  <span className="validator-hint hidden">Required</span>
+                  <p className="validator-hint hidden">
+                    Required and Must be 4 to 30 characters
+                  </p>
                 </label>
 
                 <label className="fieldset">
@@ -79,11 +92,20 @@ const Login = () => {
                     type="text"
                     className="input validator"
                     placeholder="Last Name"
+                    minLength="2"
+                    maxLength="20"
                     required
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    pattern="[A-Za-z][A-Za-z0-9\-]*"
+                    // onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e) =>
+                      setLastName(formatNameInput(e.target.value))
+                    }
                   />
-                  <span className="validator-hint hidden">Required</span>
+                  <p className="validator-hint hidden">
+                    {" "}
+                    Required and Must be 2 to 30 characters
+                  </p>
                 </label>
               </>
             )}
@@ -98,7 +120,7 @@ const Login = () => {
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
               />
-              <p className="validator-hint hidden">Required</p>
+              <p className="validator-hint hidden">Enter Valid Email Address</p>
             </fieldset>
 
             <label className="fieldset">
@@ -108,10 +130,22 @@ const Login = () => {
                 className="input validator"
                 placeholder="Password"
                 required
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+                minLength="8"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <span className="validator-hint hidden">Required</span>
+              {/* <span className="validator-hint hidden">Required</span> */}
+              <p className="validator-hint hidden">
+                Must be more than 8 characters, including
+                <br />
+                At least one number
+                <br />
+                At least one lowercase letter
+                <br />
+                At least one uppercase letter
+              </p>
             </label>
             <p className="text-red-600">{error}</p>
 
