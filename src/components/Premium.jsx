@@ -4,15 +4,6 @@ import { useState } from "react";
 
 const Premium = () => {
   const [isUserPremium, setIsUserPremium] = useState(false);
-  const verifyPremiumUser = async () => {
-    const res = await axios.get(BASE_URL + "/payment/verify", {
-      withCredentials: true,
-    });
-
-    if (res.data.isPremium) {
-      setIsUserPremium(true);
-    }
-  };
 
   const handleBuyClick = async (type) => {
     const order = await axios.post(
@@ -40,7 +31,23 @@ const Premium = () => {
       theme: {
         color: "#F37254",
       },
-      handler: verifyPremiumUser,
+      handler: async function (response) {
+        const res = await axios.post(
+          BASE_URL + "/payment/verify",
+          {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+          },
+          {
+            withCredentials: true,
+          },
+        );
+
+        if (res.data.isPremium) {
+          setIsUserPremium(true);
+        }
+      },
     };
 
     const rzp = new window.Razorpay(options);
